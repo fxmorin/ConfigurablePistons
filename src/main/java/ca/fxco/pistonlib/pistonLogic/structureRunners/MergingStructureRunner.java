@@ -113,8 +113,9 @@ public class MergingStructureRunner extends BasicStructureRunner {
 
                     BlockState movingBlock = this.family.getMoving().defaultBlockState()
                             .setValue(BasicMovingBlock.FACING, facing);
-                    BlockEntity movingBlockEntity = this.family
-                            .newMovingBlockEntity(structureGroup, dstPos, movingBlock, stateToMove, blockEntityToMove, facing, extend, false);
+                    BlockEntity movingBlockEntity = this.family.newMovingBlockEntity(
+                            structureGroup, dstPos, movingBlock, stateToMove, blockEntityToMove,
+                            facing, extend, false);
 
                     level.setBlock(dstPos, movingBlock, UPDATE_MOVE_BY_PISTON |
                             (blockEntityToMove != null ? UPDATE_CLIENTS : UPDATE_INVISIBLE));
@@ -164,7 +165,9 @@ public class MergingStructureRunner extends BasicStructureRunner {
                 MergeBlockEntity mergeBlockEntity;
                 BlockEntity mergeIntoBlockEntity = level.getBlockEntity(mergeIntoPos);
                 if (mergeIntoBlockEntity != null && mergeIntoBlockEntity.pl$doInitialMerging()) {
-                    mergeBlockEntity = new MergeBlockEntity(mergeIntoPos, mergeBlockState, mergeIntoState, mergeIntoBlockEntity);
+                    mergeBlockEntity = new MergeBlockEntity(
+                            mergeIntoPos, mergeBlockState, mergeIntoState, mergeIntoBlockEntity
+                    );
                     mergeIntoBlockEntity.pl$onMerge(mergeBlockEntity, moveDir); // Call onMerge for the base block entity
 
                     if (stateToMerge.pl$getBlockEntityMergeRules().checkMerge()) {
@@ -197,7 +200,11 @@ public class MergingStructureRunner extends BasicStructureRunner {
 
         // Keep these blocks as they unmerged, just change there state to the new one
         for (Map.Entry<BlockPos, BlockState> entry : toKeep.entrySet()) {
-            level.setBlock(entry.getKey(), entry.getValue(), UPDATE_MOVE_BY_PISTON | UPDATE_KNOWN_SHAPE | UPDATE_CLIENTS);
+            level.setBlock(
+                    entry.getKey(),
+                    entry.getValue(),
+                    UPDATE_MOVE_BY_PISTON | UPDATE_KNOWN_SHAPE | UPDATE_CLIENTS
+            );
         }
 
         // Do neighbor updates at the unmerged positions once all the blocks have been changed

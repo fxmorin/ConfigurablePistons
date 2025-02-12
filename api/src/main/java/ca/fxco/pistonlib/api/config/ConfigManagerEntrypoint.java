@@ -12,7 +12,7 @@ public interface ConfigManagerEntrypoint {
     /**
      * Proxy method for entrypoint
      *
-     * @return this config manager
+     * @return config manager of the mod
      * @since 1.0.4
      */
     ConfigManager getConfigManager();

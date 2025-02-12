@@ -130,7 +130,7 @@ public class BasicMovingBlockEntity extends PistonMovingBlockEntity implements P
     public BlockState getCollisionRelatedBlockState() {
         // Removed setting the type since this is currently only used for collision shape
         return !this.isExtending() && this.isSourcePiston() && this.movedState.getBlock() instanceof BasicPistonBaseBlock ?
-            ModBlocks.BASIC_PISTON_HEAD.defaultBlockState()
+            Blocks.PISTON_HEAD.defaultBlockState()
                 .setValue(BasicPistonHeadBlock.SHORT, this.progress > 0.25F)
                 .setValue(BasicPistonHeadBlock.FACING, this.movedState.getValue(BasicPistonBaseBlock.FACING)) :
             this.movedState;
@@ -287,7 +287,8 @@ public class BasicMovingBlockEntity extends PistonMovingBlockEntity implements P
                 AABB movementArea = moveByPositionAndProgress(this.worldPosition, new AABB(0.0D, maxY, 0.0D, 1.0D, 1.5D, 1.0D));
                 double deltaProgress = nextProgress - this.progress;
 
-                List<Entity> entities = this.level.getEntities((Entity)null, movementArea, entity -> matchesStickyCriterea(movementArea, entity));
+                List<Entity> entities = this.level.getEntities((Entity)null, movementArea, entity ->
+                        matchesStickyCriteria(movementArea, entity));
 
                 for (Entity entity : entities) {
                     moveEntity(moveDir, entity, deltaProgress, moveDir);
@@ -296,7 +297,7 @@ public class BasicMovingBlockEntity extends PistonMovingBlockEntity implements P
         }
     }
 
-    protected boolean matchesStickyCriterea(AABB movementArea, Entity entity) {
+    protected boolean matchesStickyCriteria(AABB movementArea, Entity entity) {
         return entity.getPistonPushReaction() == PushReaction.NORMAL && entity.onGround() &&
             entity.getX() >= movementArea.minX &&
             entity.getX() <= movementArea.maxX &&
@@ -306,12 +307,12 @@ public class BasicMovingBlockEntity extends PistonMovingBlockEntity implements P
 
     protected double getMovement(AABB movementArea, Direction moveDir, AABB entityAabb) {
         return switch (moveDir) {
-            default -> movementArea.maxY - entityAabb.minY;
             case EAST -> movementArea.maxX - entityAabb.minX;
             case WEST -> entityAabb.maxX - movementArea.minX;
             case DOWN -> entityAabb.maxY - movementArea.minY;
             case SOUTH -> movementArea.maxZ - entityAabb.minZ;
             case NORTH -> entityAabb.maxZ - movementArea.minZ;
+            default -> movementArea.maxY - entityAabb.minY;
         };
     }
 
@@ -583,7 +584,7 @@ public class BasicMovingBlockEntity extends PistonMovingBlockEntity implements P
 
     protected BlockState getMovingStateForCollisionShape() {
         if (this.isSourcePiston()) {
-            return ModBlocks.BASIC_PISTON_HEAD.defaultBlockState()
+            return Blocks.PISTON_HEAD.defaultBlockState()
                 .setValue(PistonHeadBlock.FACING, this.direction)
                 .setValue(PistonHeadBlock.SHORT, this.extending != 1.0F - this.progress < 0.25F);
         } else {

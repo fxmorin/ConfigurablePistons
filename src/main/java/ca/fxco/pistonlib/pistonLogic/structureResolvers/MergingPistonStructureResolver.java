@@ -164,7 +164,8 @@ public class MergingPistonStructureResolver extends BasicStructureResolver {
                         if ((!currentState.pl$usesConfigurablePistonMerging() ||
                                 currentState.pl$canMergeFromSide(level, lastBlockPos, pullDirection)) &&
                                 (!state.pl$getBlockEntityMergeRules().checkMerge() ||
-                                level.getBlockEntity(currentPos).pl$canMerge(state, currentState, this.pushDirection))) {
+                                level.getBlockEntity(currentPos).pl$canMerge(state, currentState, this.pushDirection))
+                        ) {
                             this.toMerge.add(lastBlockPos);
                             this.toPush.remove(lastBlockPos);
                             this.ignore.add(currentPos);

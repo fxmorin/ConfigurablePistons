@@ -17,7 +17,7 @@ public class LevelChunkMixin {
 
     @Shadow
     @Final
-    private Level level;
+    Level level;
 
     @Inject(
         method = "setBlockState",
@@ -27,7 +27,8 @@ public class LevelChunkMixin {
             target = "Lnet/minecraft/world/level/Level;isClientSide:Z"
         )
     )
-    private void placeMovedBlockEntity(BlockPos pos, BlockState state, boolean movedByPiston, CallbackInfoReturnable<BlockState> cir) {
+    private void pl$placeMovedBlockEntity(BlockPos pos, BlockState state, boolean movedByPiston,
+                                          CallbackInfoReturnable<BlockState> cir) {
         if (state.hasBlockEntity()) {
             BlockEntity blockEntity = this.level.pl$getBlockEntityForPlacement(pos, state);
 

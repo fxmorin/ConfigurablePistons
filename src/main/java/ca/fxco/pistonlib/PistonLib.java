@@ -19,7 +19,6 @@ import ca.fxco.pistonlib.helpers.PistonLibBehaviorManager;
 import ca.fxco.pistonlib.network.PLServerNetwork;
 import ca.fxco.pistonlib.network.packets.ModifyConfigS2CPayload;
 import lombok.Getter;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
@@ -28,7 +27,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlagUniverse;
-import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,9 +91,6 @@ public class PistonLib implements ModInitializer, PistonLibInitializer, PistonLi
     }
 
     @Override
-    public void initialize() {}
-
-    @Override
     public void registerPistonFamilies() {
         ModPistonFamilies.bootstrap();
     }
@@ -109,13 +104,6 @@ public class PistonLib implements ModInitializer, PistonLibInitializer, PistonLi
     public void bootstrap() {
         ModBlocks.bootstrap();
         ModBlockEntities.bootstrap();
-        ModItems.bootstrap();
-        ModDataComponents.bootstrap();
-        ModMenus.bootstrap();
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
-            ModCreativeModeTabs.bootstrap();
-            ModScreens.bootstrap();
-        }
         ModRecipeBookCategories.bootstrap();
         ModRecipeTypes.boostrap();
         ModRecipeSerializers.boostrap();

@@ -21,7 +21,7 @@ public class TerrainParticle_movingPistonMixin {
             target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"
         )
     )
-    private static boolean allMovingPistons(BlockState instance, Block block, Operation<Boolean> original) {
+    private static boolean pl$allMovingPistons(BlockState instance, Block block, Operation<Boolean> original) {
         return instance.is(ModTags.MOVING_PISTONS);
     }
 }

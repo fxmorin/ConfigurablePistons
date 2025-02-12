@@ -18,7 +18,7 @@ import static ca.fxco.pistonlib.PistonLib.NEVER_ENABLED_SET;
 public class Item_toggleMixin implements PLItem {
     
     @Unique
-    private BooleanSupplier isDisabled;
+    private BooleanSupplier pl$isDisabled;
 
     @Inject(
             method = "<init>",
@@ -29,13 +29,13 @@ public class Item_toggleMixin implements PLItem {
                     shift = At.Shift.AFTER
             )
     )
-    private void onInit(Item.Properties properties, CallbackInfo ci) {
-        this.isDisabled = properties.pl$getIsDisabled();
+    private void pl$onInit(Item.Properties properties, CallbackInfo ci) {
+        this.pl$isDisabled = properties.pl$getIsDisabled();
     }
 
     @Override
     public BooleanSupplier pl$getIsDisabled() {
-        return this.isDisabled;
+        return this.pl$isDisabled;
     }
 
     @Inject(
@@ -43,8 +43,8 @@ public class Item_toggleMixin implements PLItem {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void disableItem(CallbackInfoReturnable<FeatureFlagSet> cir) {
-        if (this.isDisabled.getAsBoolean()) {
+    private void pl$disableItem(CallbackInfoReturnable<FeatureFlagSet> cir) {
+        if (this.pl$isDisabled.getAsBoolean()) {
             cir.setReturnValue(NEVER_ENABLED_SET);
         }
     }

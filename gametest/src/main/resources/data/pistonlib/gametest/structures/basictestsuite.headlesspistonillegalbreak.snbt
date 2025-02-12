@@ -24,7 +24,7 @@
         {pos: [0, 2, 1], state: "minecraft:air"},
         {pos: [0, 2, 2], state: "minecraft:air"},
         {pos: [1, 2, 0], state: "minecraft:air"},
-        {pos: [1, 2, 1], state: "pistonlib:basic_piston{extended:true,facing:up}"},
+        {pos: [1, 2, 1], state: "morepistons:basic_piston{extended:true,facing:up}"},
         {pos: [1, 2, 2], state: "minecraft:air"},
         {pos: [2, 2, 0], state: "minecraft:air"},
         {pos: [2, 2, 1], state: "minecraft:air"},
@@ -42,7 +42,7 @@
         {pos: [0, 4, 1], state: "minecraft:air"},
         {pos: [0, 4, 2], state: "minecraft:air"},
         {pos: [1, 4, 0], state: "minecraft:air"},
-        {pos: [1, 4, 1], state: "gametestlib:check_state_block", nbt: {BS: {Name: "minecraft:bedrock", state: 0b}, dir: 0b, fail: 1b, id: "pistonlib:check_state_block", tick: 3}},
+        {pos: [1, 4, 1], state: "gametestlib:check_state_block", nbt: {BS: {Name: "minecraft:bedrock", state: 0b}, dir: 0b, fail: 1b, id: "morepistons:check_state_block", tick: 3}},
         {pos: [1, 4, 2], state: "minecraft:air"},
         {pos: [2, 4, 0], state: "minecraft:air"},
         {pos: [2, 4, 1], state: "minecraft:air"},
@@ -63,7 +63,7 @@
         "gametestlib:gametest_redstone_block{powered:true}",
         "minecraft:bedrock",
         "minecraft:air",
-        "pistonlib:basic_piston{extended:true,facing:up}",
+        "morepistons:basic_piston{extended:true,facing:up}",
         "gametestlib:check_state_block"
     ]
 }

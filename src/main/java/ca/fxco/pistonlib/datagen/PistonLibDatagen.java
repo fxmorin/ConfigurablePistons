@@ -18,8 +18,6 @@ public class PistonLibDatagen implements DataGeneratorEntrypoint {
 		FabricDataGenerator.Pack pack = dataGenerator.createPack();
 
 		pack.addProvider(ModModelProvider::new);
-		pack.addProvider(ModRecipeProvider::new);
-		pack.addProvider(ModBlockLootTableProvider::new);
 		pack.addProvider(ModBlockTagProvider::new);
 	}
 }

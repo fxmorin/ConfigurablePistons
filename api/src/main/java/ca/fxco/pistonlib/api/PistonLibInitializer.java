@@ -16,27 +16,27 @@ public interface PistonLibInitializer {
      *
      * @since 1.0.4
      */
-    void initialize();
+    default void initialize() {}
 
     /**
      * Register custom piston families through {@link PistonFamilies#register}
      *
      * @since 1.0.4
      */
-    void registerPistonFamilies();
+    default void registerPistonFamilies() {}
 
     /**
      * Register custom sticky groups through {@link StickyGroups#register}
      *
      * @since 1.0.4
      */
-    void registerStickyGroups();
+    default void registerStickyGroups() {}
 
     /**
      * Initialize custom registries, blocks, items, etc.
      *
      * @since 1.0.4
      */
-    void bootstrap();
+    default void bootstrap() {}
 
 }

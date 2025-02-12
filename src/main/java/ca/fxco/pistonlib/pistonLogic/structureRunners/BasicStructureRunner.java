@@ -10,6 +10,7 @@ import ca.fxco.pistonlib.blocks.pistons.basePiston.BasicMovingBlock;
 import ca.fxco.pistonlib.blocks.pistons.basePiston.BasicPistonHeadBlock;
 import ca.fxco.pistonlib.helpers.BlockReplaceUtils;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -29,25 +30,18 @@ import static net.minecraft.world.level.block.Block.*;
 /**
  * Abstract the entire piston move code into a structure runner
  */
+@Getter
 public class BasicStructureRunner implements StructureRunner {
 
     protected static final BlockState AIR_STATE = Blocks.AIR.defaultBlockState();
 
-    @Getter
     protected final Level level;
-    @Getter
     protected final PistonFamily family;
-    @Getter
     protected final PistonType type;
-    @Getter
     protected final BlockPos blockPos;
-    @Getter
     protected final Direction facing;
-    @Getter
     protected final int length;
-    @Getter
     protected final boolean extend;
-
     protected final Direction moveDir;
     protected final PistonStructureResolver structure;
 
@@ -58,6 +52,7 @@ public class BasicStructureRunner implements StructureRunner {
     protected List<BlockEntity> blockEntitiesToMove;
 
     protected BlockState[] affectedStates;
+    @Setter
     protected int affectedIndex = 0;
 
     public <S extends PistonStructureResolver & StructureResolver> BasicStructureRunner(

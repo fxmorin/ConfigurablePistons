@@ -11,11 +11,11 @@ public interface PLPayload extends CustomPacketPayload {
     /**
      * Called on the render thread!
      */
-    default void handleClient(PacketSender packetSender) {};
+    default void handleClient(PacketSender packetSender) {}
 
     /**
      * Called on the server thread!
      */
-    default void handleServer(MinecraftServer server, ServerPlayer fromPlayer, PacketSender packetSender) {};
+    default void handleServer(MinecraftServer server, ServerPlayer fromPlayer, PacketSender packetSender) {}
 
 }

@@ -21,6 +21,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /*
  * In this mixin we basically change all the !state.is(PISTON) and regular piston to instead check against the
@@ -65,46 +67,17 @@ public class PistonBaseBlockMixin implements PLPistonController, PistonFamilyMem
         return pl$newStructureResolver(level, pos, facing, extend);
     }
 
-    @WrapOperation(
-        method = "triggerEvent(Lnet/minecraft/world/level/block/state/BlockState;" +
-                 "Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;II)Z",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/piston/PistonBaseBlock;isPushable(" +
-                     "Lnet/minecraft/world/level/block/state/BlockState;" +
-                     "Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;" +
-                     "Lnet/minecraft/core/Direction;ZLnet/minecraft/core/Direction;)Z"
-        )
+    @Inject(
+            method = "triggerEvent(Lnet/minecraft/world/level/block/state/BlockState;" +
+                    "Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;II)Z",
+            at = @At(
+                    value = "HEAD"
+            ),
+            cancellable = true
     )
-    private boolean pl$modifyIsMovable(BlockState state, Level level, BlockPos pos, Direction moveDir,
-                                       boolean allowDestroy, Direction pistonFacing, Operation<Boolean> original) {
-        return pl$getPistonController().canMoveBlock(state, level, pos, moveDir, allowDestroy, pistonFacing);
-    }
-
-    @WrapOperation(
-        method = "triggerEvent(Lnet/minecraft/world/level/block/state/BlockState;" +
-                 "Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;II)Z",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
-            ordinal = 1
-        )
-    )
-    private boolean pl$allPistons(BlockState instance, Block block, Operation<Boolean> original) {
-        return instance.is(ModTags.PISTONS);
-    }
-
-    @WrapOperation(
-        method = "triggerEvent(Lnet/minecraft/world/level/block/state/BlockState;" +
-                 "Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;II)Z",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
-            ordinal = 2
-        )
-    )
-    private boolean pl$skipIsPistonCheck(BlockState instance, Block block, Operation<Boolean> original) {
-        return false;
+    private void pl$replacePistonLogic(BlockState state, Level level, BlockPos pos,
+                                    int i, int j, CallbackInfoReturnable<Boolean> cir) {
+        cir.setReturnValue(pl$getPistonController().triggerEvent(state, level, pos, i, j));
     }
 
     @WrapOperation(

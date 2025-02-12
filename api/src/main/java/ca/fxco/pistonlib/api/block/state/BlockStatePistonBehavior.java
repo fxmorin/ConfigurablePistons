@@ -5,7 +5,7 @@ import ca.fxco.pistonlib.api.pistonLogic.sticky.StickyType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * This interface is for internal use only.
@@ -41,7 +41,7 @@ public interface BlockStatePistonBehavior {
      * @return {@code true} if block state is movable, otherwise {@code false}
      * @since 1.0.4
      */
-    boolean pl$isMovable(Level level, BlockPos pos);
+    boolean pl$isMovable(BlockGetter level, BlockPos pos);
 
     /**
      * Checks if a piston can push this state.
@@ -52,7 +52,7 @@ public interface BlockStatePistonBehavior {
      * @return {@code true} if piston can push block state, otherwise {@code false}
      * @since 1.0.4
      */
-    boolean pl$canPistonPush(Level level, BlockPos pos, Direction dir);
+    boolean pl$canPistonPush(BlockGetter level, BlockPos pos, Direction dir);
 
     /**
      * Checks if a piston can pull at a given location and direction.
@@ -63,7 +63,7 @@ public interface BlockStatePistonBehavior {
      * @return {@code true} if piston can pull block state, otherwise {@code false}
      * @since 1.0.4
      */
-    boolean pl$canPistonPull(Level level, BlockPos pos, Direction dir);
+    boolean pl$canPistonPull(BlockGetter level, BlockPos pos, Direction dir);
 
     /**
      * Checks if this state is able to bypass the {@link StickyType#FUSED} sticky type.
@@ -81,7 +81,7 @@ public interface BlockStatePistonBehavior {
      * @return {@code true} if piston can destroy block state, otherwise {@code false}
      * @since 1.0.4
      */
-    boolean pl$canDestroy(Level level, BlockPos pos);
+    boolean pl$canDestroy(BlockGetter level, BlockPos pos);
 
     /**
      * This is called whenever an entity is pushed into a block by a piston.
@@ -91,6 +91,6 @@ public interface BlockStatePistonBehavior {
      * @param entity pushed into the block state
      * @since 1.0.4
      */
-    void pl$onPushEntityInto(Level level, BlockPos pos, Entity entity);
+    void pl$onPushEntityInto(BlockGetter level, BlockPos pos, Entity entity);
 
 }

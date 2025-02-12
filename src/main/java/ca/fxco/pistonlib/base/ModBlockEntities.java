@@ -1,12 +1,7 @@
 package ca.fxco.pistonlib.base;
 
-import ca.fxco.pistonlib.blocks.autoCraftingBlock.AutoCraftingBlockEntity;
 import ca.fxco.pistonlib.blocks.pistons.basePiston.BasicMovingBlockEntity;
-import ca.fxco.pistonlib.blocks.pistons.configurablePiston.ConfigurableMovingBlockEntity;
-import ca.fxco.pistonlib.blocks.pistons.fastPiston.FastMovingBlockEntity;
 import ca.fxco.pistonlib.blocks.mergeBlock.MergeBlockEntity;
-import ca.fxco.pistonlib.blocks.pistons.movableBlockEntities.MBEMovingBlockEntity;
-import ca.fxco.pistonlib.blocks.pistons.speedPiston.SpeedMovingBlockEntity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 
@@ -19,51 +14,15 @@ import static ca.fxco.pistonlib.PistonLib.id;
 
 public class ModBlockEntities {
 
-    // Pistons
-    public static final BlockEntityType<BasicMovingBlockEntity> BASIC_MOVING_BLOCK_ENTITY;
-    public static final BlockEntityType<ConfigurableMovingBlockEntity> CONFIGURABLE_MOVING_BLOCK_ENTITY;
-    public static final BlockEntityType<SpeedMovingBlockEntity> SPEED_MOVING_BLOCK_ENTITY;
-    public static final BlockEntityType<FastMovingBlockEntity> FAST_MOVING_BLOCK_ENTITY;
-    public static final BlockEntityType<MBEMovingBlockEntity> MBE_MOVING_BLOCK_ENTITY;
-
     // Other
     public static final BlockEntityType<MergeBlockEntity> MERGE_BLOCK_ENTITY;
-    public static final BlockEntityType<AutoCraftingBlockEntity> AUTO_CRAFTING_BLOCK_ENTITY;
 
     static {
-        // Pistons
-        BASIC_MOVING_BLOCK_ENTITY = register(
-                "basic",
-                BasicMovingBlockEntity::new
-        );
-        CONFIGURABLE_MOVING_BLOCK_ENTITY = register(
-                "configurable",
-                ConfigurableMovingBlockEntity::new
-        );
-        SPEED_MOVING_BLOCK_ENTITY = register(
-                "speed",
-                SpeedMovingBlockEntity::new
-        );
-        FAST_MOVING_BLOCK_ENTITY = register(
-                "fast",
-                FastMovingBlockEntity::new
-        );
-        MBE_MOVING_BLOCK_ENTITY = register(
-                "mbe",
-                MBEMovingBlockEntity::new
-        );
-
         // Other
         MERGE_BLOCK_ENTITY = Registry.register(
                 BuiltInRegistries.BLOCK_ENTITY_TYPE,
                 id("merge"),
-                FabricBlockEntityTypeBuilder.create(MergeBlockEntity::new, ModBlocks.MERGE_BLOCK).build(null)
-        );
-        AUTO_CRAFTING_BLOCK_ENTITY = Registry.register(
-                BuiltInRegistries.BLOCK_ENTITY_TYPE,
-                id("auto_crafting_block"),
-                FabricBlockEntityTypeBuilder.create(AutoCraftingBlockEntity::new, ModBlocks.AUTO_CRAFTING_BLOCK)
-                        .build(null)
+                FabricBlockEntityTypeBuilder.create(MergeBlockEntity::new, ModBlocks.MERGE_BLOCK).build()
         );
     }
 
@@ -78,7 +37,7 @@ public class ModBlockEntities {
      * Builds a block entity type from the given factories and
      * registers it to the given namespaced id.
      * <br>
-     * No blocks need to be passed here since they are added
+     * No blocks need to be passed here since they're added
      * to the block entity type after the corresponding piston
      * families are registered.
      *

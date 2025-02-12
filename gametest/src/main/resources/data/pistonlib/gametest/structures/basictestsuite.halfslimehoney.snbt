@@ -31,12 +31,12 @@
         {pos: [0, 1, 2], state: "minecraft:air"},
         {pos: [0, 1, 3], state: "minecraft:air"},
         {pos: [1, 1, 0], state: "minecraft:air"},
-        {pos: [1, 1, 1], state: "pistonlib:basic_sticky_piston{extended:false,facing:east}"},
+        {pos: [1, 1, 1], state: "morepistons:basic_sticky_piston{extended:false,facing:east}"},
         {pos: [1, 1, 2], state: "gametestlib:gametest_redstone_block{powered:false}"},
         {pos: [1, 1, 3], state: "minecraft:air"},
         {pos: [2, 1, 0], state: "minecraft:air"},
-        {pos: [2, 1, 1], state: "pistonlib:half_slime{facing:up}"},
-        {pos: [2, 1, 2], state: "pistonlib:half_honey{facing:up}"},
+        {pos: [2, 1, 1], state: "morepistons:half_slime{facing:up}"},
+        {pos: [2, 1, 2], state: "morepistons:half_honey{facing:up}"},
         {pos: [2, 1, 3], state: "minecraft:air"},
         {pos: [3, 1, 0], state: "minecraft:air"},
         {pos: [3, 1, 1], state: "minecraft:air"},
@@ -78,11 +78,11 @@
     entities: [],
     palette: [
         "minecraft:polished_andesite",
-        "pistonlib:basic_sticky_piston{extended:false,facing:east}",
+        "morepistons:basic_sticky_piston{extended:false,facing:east}",
         "gametestlib:gametest_redstone_block{powered:false}",
-        "pistonlib:half_slime{facing:up}",
+        "morepistons:half_slime{facing:up}",
         "minecraft:air",
-        "pistonlib:half_honey{facing:up}",
+        "morepistons:half_honey{facing:up}",
         "gametestlib:check_state_block"
     ]
 }

@@ -40,7 +40,8 @@ public class MBEMovingBlockEntity extends BasicMovingBlockEntity {
     public void onMovingTick(Direction movingDirection, float speed) {
         super.onMovingTick(movingDirection, speed);
         if (this.movedBlockEntity instanceof MovingTickable tickable) {
-            tickable.pl$movingTick(this.level, this.movedState, this.worldPosition, movingDirection, this.progressO, speed, false);
+            tickable.pl$movingTick(this.level, this.movedState, this.worldPosition,
+                    movingDirection, this.progressO, speed, false);
         }
     }
 

@@ -68,6 +68,6 @@ public class DebugStructureResolver extends BasicStructureResolver {
         PASS,
         //FAIL_PUSHLIMIT,
         FAIL_IMMOVABLE,
-        FAIL_MOVELINE;
+        FAIL_MOVELINE
     }
 }

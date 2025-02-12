@@ -19,7 +19,7 @@ public class DispenserBlock_quasiMixin {
                     ordinal = 1
             )
     )
-    private boolean useQuasiSignalCheck(Level instance, BlockPos pos, Operation<Boolean> original) {
+    private boolean pl$useQuasiSignalCheck(Level instance, BlockPos pos, Operation<Boolean> original) {
         return instance.pl$hasQuasiNeighborSignal(pos.below(), 1);
     }
 }

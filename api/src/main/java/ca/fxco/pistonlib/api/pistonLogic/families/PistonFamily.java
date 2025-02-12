@@ -2,8 +2,10 @@ package ca.fxco.pistonlib.api.pistonLogic.families;
 
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.BooleanSupplier;
 
 import ca.fxco.pistonlib.api.pistonLogic.structure.StructureGroup;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
@@ -171,17 +173,6 @@ public interface PistonFamily {
     boolean isFrontPowered();
 
     /**
-     * If this piston is slippery.
-     * Slippery pistons fall if no blocks are supporting them.
-     *
-     * @return {@code true} if the piston is slippery, otherwise {@code false}
-     * @since 1.2.0
-     * @deprecated This behavior is getting removed from the core library
-     */
-    @Deprecated(forRemoval = true)
-    boolean isSlippery();
-
-    /**
      * If this piston is quasi.
      * If it's affected by quasi-connectivity
      *
@@ -323,20 +314,6 @@ public interface PistonFamily {
         <T extends PistonMovingBlockEntity> Builder movingBlockEntity(BlockEntityType<T> type, Factory<T> factory);
 
         /**
-         * Sets the moving block entity type and factory for the family.
-         * This should only be used for vanilla block entities!
-         *
-         * @param type    The block entity type
-         * @param factory The vanilla moving block entity factory
-         * @return The builder
-         * @since 1.2.0
-         */
-        <T extends PistonMovingBlockEntity> Builder vanillaMovingBlockEntity(
-                BlockEntityType<T> type,
-                BiFunction<BlockPos, BlockState, T> factory
-        );
-
-        /**
          * Sets if this piston family uses custom textures
          *
          * @param customTextures If it uses custom textures
@@ -352,6 +329,71 @@ public interface PistonFamily {
          * @since 1.2.0
          */
         PistonFamily build();
+    }
+
+    /**
+     * Wraps a fabric factory.
+     * This should only be used for vanilla piston block entities!
+     *
+     * @param fabricFactory The fabric/vanilla moving block entity factory
+     * @return A new factory, which wraps the fabric factory
+     * @since 1.2.0
+     */
+    static <T extends PistonMovingBlockEntity> Factory<T> wrapFabricFactory(
+            BiFunction<BlockPos, BlockState, T> fabricFactory
+    ) {
+        return (family, group, pos, state, movedState, movedBlockEntity, facing, extending, isSourcePiston) ->
+                fabricFactory.apply(pos, state);
+    }
+
+    /**
+     * Wraps a fabric factory.
+     * This should only be used for vanilla piston block entities!
+     *
+     * @return A new factory, which wraps the fabric factory
+     * @since 1.2.0
+     */
+    static Factory<PistonMovingBlockEntity> createVanillaFactory() {
+        return (family, group, pos, state, movedState,
+                movedBlockEntity, facing, extending, isSourcePiston) ->
+                new PistonMovingBlockEntity(pos, state, movedState, facing, extending, isSourcePiston);
+    }
+
+    /**
+     * Conditionally use two different Fabric Factories.
+     * These conditions are done within the factory function, so that they can be changed dynamically.
+     * Fabric factories are used by pistonlib block entities to initialize the block entity type.
+     *
+     * @param condition    The boolean supplier which is checked to determine which factory to use
+     * @param trueFactory  The fabric factory used if the condition returns {@code true}
+     * @param falseFactory The fabric factory used if the condition returns {@code false}
+     * @return A new fabric factory, which can conditionally change between two different fabric factories
+     * @since 1.2.0
+     */
+    static <T extends PistonMovingBlockEntity> FabricBlockEntityTypeBuilder.Factory<T> conditionalFabricFactory(
+            BooleanSupplier condition,
+            FabricBlockEntityTypeBuilder.Factory<T> trueFactory,
+            FabricBlockEntityTypeBuilder.Factory<T> falseFactory
+    ) {
+        return (pos, state) -> (condition.getAsBoolean() ? trueFactory : falseFactory).create(pos, state);
+    }
+
+    /**
+     * Conditionally use two different Factories.
+     * These conditions are done within the factory function, so that they can be changed dynamically.
+     *
+     * @param condition    The boolean supplier which is checked to determine which factory to use
+     * @param trueFactory  The factory used if the condition returns {@code true}
+     * @param falseFactory The factory used if the condition returns {@code false}
+     * @return A new factory, which can conditionally change between two different factories
+     * @since 1.2.0
+     */
+    static <T extends PistonMovingBlockEntity> Factory<T> conditionalFactory(BooleanSupplier condition,
+                                                                             Factory<T> trueFactory,
+                                                                             Factory<T> falseFactory) {
+        return (family, group, pos, state, movedState, movedBlockEntity, facing, extending, isSource) ->
+                (condition.getAsBoolean() ? trueFactory : falseFactory)
+                        .create(family, group, pos, state, movedState, movedBlockEntity, facing, extending, isSource);
     }
 
     /**

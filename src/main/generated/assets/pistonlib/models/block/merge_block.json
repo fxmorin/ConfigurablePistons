@@ -1,0 +1,6 @@
+{
+  "parent": "pistonlib:block/template_empty",
+  "textures": {
+    "particle": "minecraft:block/piston_side"
+  }
+}

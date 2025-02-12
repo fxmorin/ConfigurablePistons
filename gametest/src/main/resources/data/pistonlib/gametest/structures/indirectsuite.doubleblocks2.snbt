@@ -60,7 +60,7 @@
         {pos: [1, 2, 0], state: "minecraft:air"},
         {pos: [1, 2, 1], state: "minecraft:air"},
         {pos: [1, 2, 2], state: "gametestlib:gametest_redstone_block{powered:true}"},
-        {pos: [1, 2, 3], state: "pistonlib:mbe_sticky_piston{extended:true,facing:east}"},
+        {pos: [1, 2, 3], state: "morepistons:mbe_sticky_piston{extended:true,facing:east}"},
         {pos: [1, 2, 4], state: "minecraft:air"},
         {pos: [2, 2, 0], state: "minecraft:air"},
         {pos: [2, 2, 1], state: "minecraft:air"},

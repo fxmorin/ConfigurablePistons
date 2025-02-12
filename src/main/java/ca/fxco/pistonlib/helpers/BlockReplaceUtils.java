@@ -14,6 +14,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 
@@ -121,7 +122,7 @@ public class BlockReplaceUtils {
             BlockState neighborState = levelReader.getBlockState(mutableBlockPos);
             if (neighborState.is(ModTags.MOVING_PISTONS)) {
                 BlockEntity blockEntity = levelReader.getBlockEntity(mutableBlockPos);
-                if (blockEntity instanceof BasicMovingBlockEntity bmbe && bmbe.progress >= 1.0F) {
+                if (blockEntity instanceof PistonMovingBlockEntity bmbe && bmbe.progress >= 1.0F) {
                     neighborState = bmbe.getMovedState();
                 }
             }

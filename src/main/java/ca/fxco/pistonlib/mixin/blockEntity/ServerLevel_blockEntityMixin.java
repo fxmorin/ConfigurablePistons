@@ -51,7 +51,7 @@ public abstract class ServerLevel_blockEntityMixin extends Level {
                     target = "Lnet/minecraft/server/level/ServerLevel;tickTime()V"
             )
     )
-    private void beforeBlockEntityTicking(CallbackInfo ci) {
+    private void pl$beforeBlockEntityTicking(CallbackInfo ci) {
         for (Iterator<BlockEntity> it = this.blockEntitiesToPostLoad.iterator(); it.hasNext(); it.remove()) {
             it.next().pl$onPostLoad();
         }

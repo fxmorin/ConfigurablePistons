@@ -14,8 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 
 /**
  * Fixes being able to push blocks through the world border
+ *
+ * @author FX
  */
-
 @Mixin(PistonBaseBlock.class)
 public class PistonBlock_worldBorderMixin {
 
@@ -27,8 +28,8 @@ public class PistonBlock_worldBorderMixin {
                             "isWithinBounds(Lnet/minecraft/core/BlockPos;)Z"
             )
     )
-    private static boolean customWorldBorderCheck(WorldBorder instance, BlockPos pos, Operation<Boolean> original,
-                                                  BlockState state, Level level, BlockPos pos2, Direction dir) {
+    private static boolean pl$customWorldBorderCheck(WorldBorder instance, BlockPos pos, Operation<Boolean> original,
+                                                     BlockState state, Level level, BlockPos pos2, Direction dir) {
         if (PistonLibConfig.pushThroughWorldBorderFix) {
             return instance.isWithinBounds(pos.relative(dir));
         }

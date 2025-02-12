@@ -24,8 +24,9 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 /**
  * Prevents Headless pistons from existing, since headless pistons are able to break any block in the game.
  * This fix should prevent being able to break most blocks such as bedrock!
+ *
+ * @author FX
  */
-
 @Mixin(PistonBaseBlock.class)
 public abstract class PistonBaseBlock_headlessMixin {
 
@@ -51,7 +52,7 @@ public abstract class PistonBaseBlock_headlessMixin {
             ),
             cancellable = true
     )
-    private void stopHeadlessPiston(Level level, BlockPos pos, BlockState state, CallbackInfo ci) {
+    private void pl$stopHeadlessPiston(Level level, BlockPos pos, BlockState state, CallbackInfo ci) {
         if (PistonLibConfig.headlessPistonFix && state.getValue(EXTENDED)) {
             Direction direction = state.getValue(FACING);
             BlockState blockState = level.getBlockState(pos.relative(direction));

@@ -27,12 +27,3 @@ extendable method net/minecraft/world/level/block/piston/PistonMovingBlockEntity
 
 # Set FeatureFlag constructor to public
 accessible method net/minecraft/world/flag/FeatureFlag <init> (Lnet/minecraft/world/flag/FeatureFlagUniverse;I)V
-
-extendable method net/minecraft/client/gui/screens/inventory/tooltip/ClientBundleTooltip getContentXOffset (I)I
-extendable method net/minecraft/client/gui/screens/inventory/tooltip/ClientBundleTooltip gridSizeY ()I
-
-accessible method net/minecraft/world/item/component/BundleContents <init> (Ljava/util/List;Lorg/apache/commons/lang3/math/Fraction;I)V
-accessible field net/minecraft/world/item/crafting/RecipeManager recipes Lnet/minecraft/world/item/crafting/RecipeMap;
-mutable field net/minecraft/world/inventory/TransientCraftingContainer items Lnet/minecraft/core/NonNullList;
-accessible field net/minecraft/world/inventory/TransientCraftingContainer items Lnet/minecraft/core/NonNullList;
-accessible class net/minecraft/world/inventory/MenuType
