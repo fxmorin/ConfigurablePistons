@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.Map;
 import java.util.Optional;
@@ -21,15 +22,6 @@ public abstract class ChestBlock_stuckMixin extends Block {
         super(properties);
     }
 
-    private static Optional<Direction> getStickyDirection(BlockState state) {
-        ChestType type = state.getValue(TYPE);
-        if (type == ChestType.SINGLE) {
-            return Optional.empty();
-        }
-        Direction dir = state.getValue(FACING);
-        return Optional.of(type == ChestType.LEFT ? dir.getClockWise() : dir.getCounterClockWise());
-    }
-
     @Override
     public boolean pl$usesConfigurablePistonStickiness() {
         return PistonLibConfig.stuckDoubleBlocks;
@@ -37,21 +29,31 @@ public abstract class ChestBlock_stuckMixin extends Block {
 
     @Override
     public Map<Direction, StickyType> pl$stickySides(BlockState state) {
-        return getStickyDirection(state).map(dir -> Map.of(dir, StickyType.CONDITIONAL)).orElseGet(Map::of);
+        return pl$getStickyDirection(state).map(dir -> Map.of(dir, StickyType.CONDITIONAL)).orElseGet(Map::of);
     }
 
     @Override
     public StickyType pl$sideStickiness(BlockState state, Direction dir) {
-        Optional<Direction> dirOpt = getStickyDirection(state);
+        Optional<Direction> dirOpt = pl$getStickyDirection(state);
         return dirOpt.isPresent() && dirOpt.get() == dir ? StickyType.CONDITIONAL : StickyType.DEFAULT;
     }
 
     @Override
     public boolean pl$matchesStickyConditions(BlockState state, BlockState neighborState, Direction dir) {
         if (state.is(neighborState.getBlock())) {
-            Optional<Direction> dirOpt = getStickyDirection(neighborState);
+            Optional<Direction> dirOpt = pl$getStickyDirection(neighborState);
             return dirOpt.isPresent() && dirOpt.get() == dir.getOpposite();
         }
         return false;
+    }
+
+    @Unique
+    private static Optional<Direction> pl$getStickyDirection(BlockState state) {
+        ChestType type = state.getValue(TYPE);
+        if (type == ChestType.SINGLE) {
+            return Optional.empty();
+        }
+        Direction dir = state.getValue(FACING);
+        return Optional.of(type == ChestType.LEFT ? dir.getClockWise() : dir.getCounterClockWise());
     }
 }

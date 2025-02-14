@@ -62,6 +62,8 @@ dependencies {
 
     // GameTestLib
     modImplementation 'com.github.fxmorin:GameTestLib:40fa982d22'
+
+    modImplementation(files("./libs/MorePistons.jar"))
 }
 
 def targetJavaVersion = 21

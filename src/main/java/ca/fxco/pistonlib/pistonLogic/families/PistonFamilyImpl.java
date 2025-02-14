@@ -21,7 +21,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 @AllArgsConstructor
 public class PistonFamilyImpl implements PistonFamily {
@@ -154,17 +153,6 @@ public class PistonFamilyImpl implements PistonFamily {
         ) {
             this.movingBlockEntityType = type;
             this.movingBlockEntityFactory = factory;
-            return this;
-        }
-
-        @Override
-        public <T extends PistonMovingBlockEntity> Builder vanillaMovingBlockEntity(
-                BlockEntityType<T> type,
-                BiFunction<BlockPos, BlockState, T> factory
-        ) {
-            this.movingBlockEntityType = type;
-            this.movingBlockEntityFactory = (family, structureGroup, pos, state, movedState, movedBlockEntity,
-                                             facing, extending, isSourcePiston) -> factory.apply(pos, state);
             return this;
         }
 

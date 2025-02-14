@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 
 public class ClientPacketHandler {
 
-    public static void handle(PistonEventS2CPayload<?> packet, PacketSender packetSender) {
+    public static void handle(PistonEventS2CPayload packet, PacketSender packetSender) {
         PistonController controller = ((PLPistonController)packet.pistonBlock()).pl$getPistonController();
         new DecoupledStructureRunner(controller.newStructureRunner(
                 Minecraft.getInstance().level,

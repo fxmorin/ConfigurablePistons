@@ -17,7 +17,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -77,19 +76,19 @@ public interface PLBlockBehaviour extends BlockPistonBehavior, BlockPistonMergin
 
     @Deprecated
     @Override
-    default boolean pl$isMovable(Level level, BlockPos pos, BlockState state) {
+    default boolean pl$isMovable(BlockGetter level, BlockPos pos, BlockState state) {
         return true;
     }
 
     @Deprecated
     @Override
-    default boolean pl$canPistonPush(Level level, BlockPos pos, BlockState state, Direction dir) {
+    default boolean pl$canPistonPush(BlockGetter level, BlockPos pos, BlockState state, Direction dir) {
         return true;
     }
 
     @Deprecated
     @Override
-    default boolean pl$canPistonPull(Level level, BlockPos pos, BlockState state, Direction dir) {
+    default boolean pl$canPistonPull(BlockGetter level, BlockPos pos, BlockState state, Direction dir) {
         return true;
     }
 
@@ -101,13 +100,13 @@ public interface PLBlockBehaviour extends BlockPistonBehavior, BlockPistonMergin
 
     @Deprecated
     @Override
-    default boolean pl$canDestroy(Level level, BlockPos pos, BlockState state) {
+    default boolean pl$canDestroy(BlockGetter level, BlockPos pos, BlockState state) {
         return false;
     }
 
     @Deprecated
     @Override
-    default void pl$onPushEntityInto(Level level, BlockPos pos, BlockState state, Entity entity) {
+    default void pl$onPushEntityInto(BlockGetter level, BlockPos pos, BlockState state, Entity entity) {
     }
 
 
@@ -169,7 +168,7 @@ public interface PLBlockBehaviour extends BlockPistonBehavior, BlockPistonMergin
     @Deprecated
     @Override
     default @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockState state, BlockGetter level,
-                                                                BlockPos pos, Direction dir) {
+                                                                BlockPos pos, Direction dir, BlockState pullingState) {
         return null;
     }
 

@@ -72,7 +72,7 @@ public class MergingStructureRunner extends BasicStructureRunner {
         int moveSize = toMove.size();
         if (moveSize > 0) {
             if (structure instanceof MergingPistonStructureResolver mergingStructure) {
-                List<BlockPos> toUnMerge = mergingStructure.getToUnMerge();
+                Map<BlockPos, BlockState> toUnMerge = mergingStructure.getToUnMerge();
                 unMergingStates = new BlockState[toUnMerge.size()];
                 StructureGroup structureGroup = null;
                 if (moveSize > 1) { // Only use Structure group if there are more than 1 block entities in the group
@@ -87,7 +87,7 @@ public class MergingStructureRunner extends BasicStructureRunner {
                     boolean move = true;
 
                     // UnMerge blocks
-                    if (toUnMerge.contains(posToMove)) {
+                    if (toUnMerge.containsKey(posToMove)) {
                         Pair<BlockState, BlockState> unmergedStates = null;
                         if (stateToMove.pl$getBlockEntityMergeRules().checkUnMerge()) {
                             unmergedStates = blockEntityToMove.pl$doUnMerge(stateToMove, moveDir);
@@ -96,7 +96,8 @@ public class MergingStructureRunner extends BasicStructureRunner {
                             }
                         }
                         if (unmergedStates == null) {
-                            unmergedStates = stateToMove.pl$doUnMerge(level, posToMove, moveDir);
+                            unmergedStates = stateToMove.pl$doUnMerge(level,
+                                    posToMove, moveDir, toUnMerge.get(posToMove));
                         }
                         if (unmergedStates != null) {
                             unMergingStates[unMergingIndex++] = stateToMove;
@@ -113,8 +114,9 @@ public class MergingStructureRunner extends BasicStructureRunner {
 
                     BlockState movingBlock = this.family.getMoving().defaultBlockState()
                             .setValue(BasicMovingBlock.FACING, facing);
-                    BlockEntity movingBlockEntity = this.family
-                            .newMovingBlockEntity(structureGroup, dstPos, movingBlock, stateToMove, blockEntityToMove, facing, extend, false);
+                    BlockEntity movingBlockEntity = this.family.newMovingBlockEntity(
+                            structureGroup, dstPos, movingBlock, stateToMove, blockEntityToMove,
+                            facing, extend, false);
 
                     level.setBlock(dstPos, movingBlock, UPDATE_MOVE_BY_PISTON |
                             (blockEntityToMove != null ? UPDATE_CLIENTS : UPDATE_INVISIBLE));
@@ -164,7 +166,9 @@ public class MergingStructureRunner extends BasicStructureRunner {
                 MergeBlockEntity mergeBlockEntity;
                 BlockEntity mergeIntoBlockEntity = level.getBlockEntity(mergeIntoPos);
                 if (mergeIntoBlockEntity != null && mergeIntoBlockEntity.pl$doInitialMerging()) {
-                    mergeBlockEntity = new MergeBlockEntity(mergeIntoPos, mergeBlockState, mergeIntoState, mergeIntoBlockEntity);
+                    mergeBlockEntity = new MergeBlockEntity(
+                            mergeIntoPos, mergeBlockState, mergeIntoState, mergeIntoBlockEntity
+                    );
                     mergeIntoBlockEntity.pl$onMerge(mergeBlockEntity, moveDir); // Call onMerge for the base block entity
 
                     if (stateToMerge.pl$getBlockEntityMergeRules().checkMerge()) {
@@ -197,7 +201,11 @@ public class MergingStructureRunner extends BasicStructureRunner {
 
         // Keep these blocks as they unmerged, just change there state to the new one
         for (Map.Entry<BlockPos, BlockState> entry : toKeep.entrySet()) {
-            level.setBlock(entry.getKey(), entry.getValue(), UPDATE_MOVE_BY_PISTON | UPDATE_KNOWN_SHAPE | UPDATE_CLIENTS);
+            level.setBlock(
+                    entry.getKey(),
+                    entry.getValue(),
+                    UPDATE_MOVE_BY_PISTON | UPDATE_KNOWN_SHAPE | UPDATE_CLIENTS
+            );
         }
 
         // Do neighbor updates at the unmerged positions once all the blocks have been changed

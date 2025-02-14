@@ -18,7 +18,7 @@ import static ca.fxco.pistonlib.PistonLib.DIRECTIONS;
 public class Level_quasiMixin implements PLLevel {
 
     @Shadow
-    private BlockState getBlockState(BlockPos pos) { return null; }
+    public BlockState getBlockState(BlockPos pos) { return null; }
 
     /**
      * BlockPos is the position that the check happens at
@@ -28,13 +28,17 @@ public class Level_quasiMixin implements PLLevel {
         int i = Redstone.SIGNAL_NONE;
         if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.below(), Direction.DOWN, d))) >= Redstone.SIGNAL_MAX) {
             return i;
-        } else if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.above(), Direction.UP, d))) >= Redstone.SIGNAL_MAX) {
+        }
+        if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.above(), Direction.UP, d))) >= Redstone.SIGNAL_MAX) {
             return i;
-        } else if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.north(), Direction.NORTH, d))) >= Redstone.SIGNAL_MAX) {
+        }
+        if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.north(), Direction.NORTH, d))) >= Redstone.SIGNAL_MAX) {
             return i;
-        } else if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.south(), Direction.SOUTH, d))) >= Redstone.SIGNAL_MAX) {
+        }
+        if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.south(), Direction.SOUTH, d))) >= Redstone.SIGNAL_MAX) {
             return i;
-        } else if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.west(), Direction.WEST, d))) >= Redstone.SIGNAL_MAX) {
+        }
+        if ((i = Math.max(i, pl$getDirectQuasiSignal(pos.west(), Direction.WEST, d))) >= Redstone.SIGNAL_MAX) {
             return i;
         }
         return Math.max(i, pl$getDirectQuasiSignal(pos.east(), Direction.EAST, d));

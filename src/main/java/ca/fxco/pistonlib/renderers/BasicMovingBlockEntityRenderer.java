@@ -1,5 +1,6 @@
 package ca.fxco.pistonlib.renderers;
 
+import ca.fxco.pistonlib.blocks.pistons.movableBlockEntities.MBEMovingBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -18,6 +19,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
@@ -27,6 +29,7 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -36,14 +39,15 @@ public class BasicMovingBlockEntityRenderer<T extends BasicMovingBlockEntity> im
     private static final boolean DEBUG_CONTROLLERS = false;
     private static final boolean DEBUG_AS_OVERLAY = true;
 
-    protected final BlockRenderDispatcher blockRenderer;
+    protected final BlockEntityRendererProvider.Context context;
 
     public BasicMovingBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {
-        this.blockRenderer = ctx.getBlockRenderDispatcher();
+        this.context = ctx;
     }
 
     @Override
-    public void render(T mbe, float partialTick, PoseStack stack, MultiBufferSource bufferSource, int light, int overlay) {
+    public void render(T mbe, float partialTick, PoseStack stack, MultiBufferSource bufferSource,
+                       int light, int overlay) {
         Level level = mbe.getLevel();
         if (level == null) {
             return;
@@ -107,8 +111,8 @@ public class BasicMovingBlockEntityRenderer<T extends BasicMovingBlockEntity> im
         ModelBlockRenderer.clearCache();
     }
 
-    protected void renderMovingSource(T mbe, Level level, BlockPos fromPos, BlockPos toPos, float partialTick, PoseStack stack,
-                                      MultiBufferSource bufferSource, int light, int overlay) {
+    protected void renderMovingSource(T mbe, Level level, BlockPos fromPos, BlockPos toPos, float partialTick,
+                                      PoseStack stack, MultiBufferSource bufferSource, int light, int overlay) {
         BlockState state = mbe.getMovedState();
 
         if (mbe.isExtending()) {
@@ -164,11 +168,20 @@ public class BasicMovingBlockEntityRenderer<T extends BasicMovingBlockEntity> im
         } else {
             this.renderBlock(mbe, fromPos, state, stack, bufferSource, level, false, overlay);
         }
+
+        // Movable block entities
+        if (mbe instanceof MBEMovingBlockEntity mbembe) {
+            BlockEntity blockEntity = mbembe.getMovedBlockEntity();
+
+            if (blockEntity != null) {
+                BlockEntityRenderDispatcher blockEntityRenderer = this.context.getBlockEntityRenderDispatcher();
+                blockEntityRenderer.render(blockEntity, partialTick, stack, bufferSource);
+            }
+        }
     }
 
     protected void renderStaticBlock(T mbe, Level level, BlockPos fromPos, BlockPos toPos, float partialTick,
                                      PoseStack stack, MultiBufferSource bufferSource, int light, int overlay) {
-
     }
 
     protected void renderDebugBlock(Level level, Block block, BlockPos pos, PoseStack stack,
@@ -176,7 +189,8 @@ public class BasicMovingBlockEntityRenderer<T extends BasicMovingBlockEntity> im
         BlockState state = block.defaultBlockState();
         RenderType type = ItemBlockRenderTypes.getMovingBlockRenderType(state);
         VertexConsumer consumer = bufferSource.getBuffer(type);
-        this.blockRenderer.getModelRenderer().tesselateBlock(level, this.blockRenderer.getBlockModel(state), state,
+        BlockRenderDispatcher blockRenderer = this.context.getBlockRenderDispatcher();
+        blockRenderer.getModelRenderer().tesselateBlock(level, blockRenderer.getBlockModel(state), state,
                 pos, stack, consumer, false, RandomSource.create(), state.getSeed(pos), overlay);
     }
 
@@ -199,7 +213,8 @@ public class BasicMovingBlockEntityRenderer<T extends BasicMovingBlockEntity> im
             getter = level;
         }
 
-        this.blockRenderer.getModelRenderer().tesselateBlock(getter, this.blockRenderer.getBlockModel(state), state,
+        BlockRenderDispatcher blockRenderer = this.context.getBlockRenderDispatcher();
+        blockRenderer.getModelRenderer().tesselateBlock(getter, blockRenderer.getBlockModel(state), state,
                 pos, stack, consumer, cull, RandomSource.create(), state.getSeed(pos), overlay);
     }
 

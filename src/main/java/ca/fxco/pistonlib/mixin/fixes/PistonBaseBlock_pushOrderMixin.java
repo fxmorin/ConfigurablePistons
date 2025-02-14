@@ -14,8 +14,9 @@ import java.util.HashMap;
 
 /**
  * Fixes the piston update order being locational
+ *
+ * @author FX
  */
-
 @Mixin(PistonBaseBlock.class)
 public class PistonBaseBlock_pushOrderMixin {
 
@@ -27,7 +28,7 @@ public class PistonBaseBlock_pushOrderMixin {
                     remap = false
             )
     )
-    private HashMap<BlockPos, BlockState> fixLocationalHashmap(Operation<HashMap<BlockPos, BlockState>> original) {
+    private HashMap<BlockPos, BlockState> pl$fixLocationalHashmap(Operation<HashMap<BlockPos, BlockState>> original) {
         return PistonLibConfig.locationalUpdateOrderFix ? Maps.newLinkedHashMap() : original.call();
     }
 }

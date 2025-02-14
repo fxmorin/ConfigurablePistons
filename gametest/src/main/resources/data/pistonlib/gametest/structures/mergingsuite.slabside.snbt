@@ -36,13 +36,13 @@
         {pos: [0, 2, 1], state: "minecraft:air"},
         {pos: [0, 2, 2], state: "minecraft:air"},
         {pos: [1, 2, 0], state: "minecraft:air"},
-        {pos: [1, 2, 1], state: "pistonlib:basic_sticky_piston{extended:true,facing:east}"},
+        {pos: [1, 2, 1], state: "morepistons:basic_sticky_piston{extended:true,facing:east}"},
         {pos: [1, 2, 2], state: "minecraft:air"},
         {pos: [2, 2, 0], state: "minecraft:air"},
-        {pos: [2, 2, 1], state: "pistonlib:basic_piston_head{facing:east,short:false,type:sticky}"},
+        {pos: [2, 2, 1], state: "morepistons:basic_piston_head{facing:east,short:false,type:sticky}"},
         {pos: [2, 2, 2], state: "minecraft:air"},
         {pos: [3, 2, 0], state: "minecraft:air"},
-        {pos: [3, 2, 1], state: "pistonlib:half_obsidian{facing:north}"},
+        {pos: [3, 2, 1], state: "morepistons:half_obsidian{facing:north}"},
         {pos: [3, 2, 2], state: "minecraft:air"},
         {pos: [4, 2, 0], state: "minecraft:air"},
         {pos: [4, 2, 1], state: "minecraft:air"},
@@ -67,10 +67,10 @@
     palette: [
         "minecraft:polished_andesite",
         "gametestlib:gametest_redstone_block{powered:true}",
-        "pistonlib:half_obsidian{facing:north}",
+        "morepistons:half_obsidian{facing:north}",
         "minecraft:air",
-        "pistonlib:basic_sticky_piston{extended:true,facing:east}",
-        "pistonlib:basic_piston_head{facing:east,short:false,type:sticky}",
+        "morepistons:basic_sticky_piston{extended:true,facing:east}",
+        "morepistons:basic_piston_head{facing:east,short:false,type:sticky}",
         "gametestlib:check_state_block"
     ]
 }

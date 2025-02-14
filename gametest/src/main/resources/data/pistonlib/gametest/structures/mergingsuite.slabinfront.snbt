@@ -27,7 +27,7 @@
         {pos: [2, 1, 1], state: "minecraft:air"},
         {pos: [2, 1, 2], state: "minecraft:air"},
         {pos: [3, 1, 0], state: "minecraft:air"},
-        {pos: [3, 1, 1], state: "gametestlib:check_state_block", nbt: {BS: {Name: "pistonlib:half_obsidian", Properties: {facing: "up"}, state: 1b}, dir: 1b, fail: 0b, id: "gametestlib:check_state_block", tick: 3}},
+        {pos: [3, 1, 1], state: "gametestlib:check_state_block", nbt: {BS: {Name: "morepistons:half_obsidian", Properties: {facing: "up"}, state: 1b}, dir: 1b, fail: 0b, id: "gametestlib:check_state_block", tick: 3}},
         {pos: [3, 1, 2], state: "minecraft:air"},
         {pos: [4, 1, 0], state: "minecraft:air"},
         {pos: [4, 1, 1], state: "minecraft:air"},
@@ -36,13 +36,13 @@
         {pos: [0, 2, 1], state: "minecraft:air"},
         {pos: [0, 2, 2], state: "minecraft:air"},
         {pos: [1, 2, 0], state: "minecraft:air"},
-        {pos: [1, 2, 1], state: "pistonlib:basic_sticky_piston{extended:false,facing:east}"},
+        {pos: [1, 2, 1], state: "morepistons:basic_sticky_piston{extended:false,facing:east}"},
         {pos: [1, 2, 2], state: "minecraft:air"},
         {pos: [2, 2, 0], state: "minecraft:air"},
         {pos: [2, 2, 1], state: "minecraft:smooth_stone_slab{type:bottom,waterlogged:false}"},
         {pos: [2, 2, 2], state: "minecraft:air"},
         {pos: [3, 2, 0], state: "minecraft:air"},
-        {pos: [3, 2, 1], state: "pistonlib:obsidian_slab_block{type:top,waterlogged:false}"},
+        {pos: [3, 2, 1], state: "morepistons:obsidian_slab_block{type:top,waterlogged:false}"},
         {pos: [3, 2, 2], state: "minecraft:air"},
         {pos: [4, 2, 0], state: "minecraft:air"},
         {pos: [4, 2, 1], state: "minecraft:air"},
@@ -67,10 +67,10 @@
     palette: [
         "minecraft:polished_andesite",
         "gametestlib:gametest_redstone_block{powered:false}",
-        "pistonlib:basic_sticky_piston{extended:false,facing:east}",
+        "morepistons:basic_sticky_piston{extended:false,facing:east}",
         "minecraft:air",
         "minecraft:smooth_stone_slab{type:bottom,waterlogged:false}",
-        "pistonlib:obsidian_slab_block{type:top,waterlogged:false}",
+        "morepistons:obsidian_slab_block{type:top,waterlogged:false}",
         "gametestlib:check_state_block"
     ]
 }

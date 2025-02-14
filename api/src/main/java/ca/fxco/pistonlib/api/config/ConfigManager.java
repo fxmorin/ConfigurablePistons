@@ -1,6 +1,12 @@
 package ca.fxco.pistonlib.api.config;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.suggestion.Suggestions;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.network.chat.Component;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -112,4 +118,64 @@ public interface ConfigManager {
      * @since 1.0.4
      */
     Collection<ParsedValue<?>> getParsedValues();
+
+    /**
+     * Creates subcommand to edit config manager's values in game
+     *
+     * @param configManager config manager to create command for
+     * @return Subcommand with literal arguments of the options
+     */
+    static LiteralArgumentBuilder<CommandSourceStack> createConfigSubCommand(
+            ConfigManager configManager
+    ) {
+        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("config")
+                .requires(source -> source.hasPermission(4));
+        configManager.getParsedValues().forEach(parsedValue ->
+                builder.then(Commands.literal(parsedValue.getName())
+                        .executes(ctx -> {
+                            ctx.getSource().sendSuccess(() -> Component.translatable("commands.pistonlib.config.value",
+                                    parsedValue.getName(), parsedValue.getValue()), false);
+                            return 1;
+                        })
+                        .then(Commands.literal("set")
+                                .then(Commands.argument("new value", StringArgumentType.word())
+                                        .suggests((context, builder1) -> {
+                                            Object value = parsedValue.getValue();
+                                            String[] suggestions;
+
+                                            if (parsedValue.getSuggestions().length != 0) {
+                                                suggestions = parsedValue.getSuggestions();
+                                            } else if (value instanceof Boolean) {
+                                                suggestions = new String[]{"true", "false"};
+                                            } else if (value instanceof Enum<?> enumValue) {
+                                                Enum<?>[] enums = enumValue.getClass().getEnumConstants();
+                                                suggestions = new String[enums.length];
+                                                for (int i = 0; i < enums.length; i++) {
+                                                    suggestions[i] = enums[i].toString();
+                                                }
+                                            } else {
+                                                return Suggestions.empty();
+                                            }
+                                            return SharedSuggestionProvider.suggest(suggestions, builder1);
+                                        }).executes(ctx -> {
+                                            configManager.saveValueFromCommand(parsedValue, ctx.getSource(),
+                                                    StringArgumentType.getString(ctx, "new value"));
+                                            ctx.getSource().sendSuccess(() -> Component.translatable(
+                                                    "commands.pistonlib.config.success"
+                                                            + (parsedValue.requiresRestart() ? ".restart" : ""),
+                                                    parsedValue.getName(), parsedValue.getValueToSave()), true);
+                                            return 1;
+                                        })))
+                        .then(Commands.literal("default").executes(ctx -> {
+                            configManager.resetAndSaveValue(parsedValue);
+                            ctx.getSource().sendSuccess(() -> Component.translatable(
+                                    "commands.pistonlib.config.success"
+                                            + (parsedValue.requiresRestart() ? ".restart" : ""),
+                                    parsedValue.getName(), parsedValue.getValueToSave()), true);
+                            return 1;
+                        }))
+                )
+        );
+        return builder;
+    }
 }

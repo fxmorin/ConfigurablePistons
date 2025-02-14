@@ -25,10 +25,9 @@ import java.util.*;
  * @author FX
  * @since 1.0.4
  */
-public class ConfigManagerImpl implements ConfigManager, ConfigManagerEntrypoint {
+public class ConfigManagerImpl implements ConfigManager {
 
     private static final boolean DEBUG_CONFIG = false;
-    private static final boolean DEBUG_NETWORK = false;
 
     private final String modId;
     private final TomlWriter tomlWriter;
@@ -172,11 +171,6 @@ public class ConfigManagerImpl implements ConfigManager, ConfigManagerEntrypoint
     @Override
     public Collection<ParsedValue<?>> getParsedValues() {
         return parsedValues.values();
-    }
-
-    @Override
-    public ca.fxco.pistonlib.api.config.ConfigManager getConfigManager() {
-        return this;
     }
 
     /**

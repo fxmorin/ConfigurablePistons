@@ -25,7 +25,7 @@ public abstract class Entity_pushIntoMixin implements EntityPistonMechanics {
                             "Lnet/minecraft/world/phys/Vec3;"
             )
     )
-    private Vec3 checkPushInto(Entity instance, Vec3 vec3, Operation<Vec3> original, MoverType moverType) {
+    private Vec3 pl$checkPushInto(Entity instance, Vec3 vec3, Operation<Vec3> original, MoverType moverType) {
         if (PistonLibConfig.entityApi && moverType == MoverType.PISTON && !instance.level().isClientSide) {
             BlockState crushedAgainst = null;
             if (pl$canPushIntoBlocks()) {

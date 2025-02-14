@@ -4,7 +4,7 @@ import ca.fxco.pistonlib.api.pistonLogic.sticky.StickyType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -47,7 +47,7 @@ public interface BlockPistonBehavior {
      * @return {@code true} if block state is movable, otherwise {@code false}
      * @since 1.0.4
      */
-    default boolean pl$isMovable(Level level, BlockPos pos, BlockState state) {
+    default boolean pl$isMovable(BlockGetter level, BlockPos pos, BlockState state) {
         return true;
     }
 
@@ -61,7 +61,7 @@ public interface BlockPistonBehavior {
      * @return {@code true} if piston can push block state, otherwise {@code false}
      * @since 1.0.4
      */
-    default boolean pl$canPistonPush(Level level, BlockPos pos, BlockState state, Direction dir) {
+    default boolean pl$canPistonPush(BlockGetter level, BlockPos pos, BlockState state, Direction dir) {
         return true;
     }
 
@@ -75,7 +75,7 @@ public interface BlockPistonBehavior {
      * @return {@code true} if piston can pull block state, otherwise {@code false}
      * @since 1.0.4
      */
-    default boolean pl$canPistonPull(Level level, BlockPos pos, BlockState state, Direction dir) {
+    default boolean pl$canPistonPull(BlockGetter level, BlockPos pos, BlockState state, Direction dir) {
         return true;
     }
 
@@ -99,7 +99,7 @@ public interface BlockPistonBehavior {
      * @return {@code true} if piston can destroy block state, otherwise {@code false}
      * @since 1.0.4
      */
-    default boolean pl$canDestroy(Level level, BlockPos pos, BlockState state) {
+    default boolean pl$canDestroy(BlockGetter level, BlockPos pos, BlockState state) {
         return false;
     }
 
@@ -112,6 +112,6 @@ public interface BlockPistonBehavior {
      * @param entity pushed into the block state
      * @since 1.0.4
      */
-    default void pl$onPushEntityInto(Level level, BlockPos pos, BlockState state, Entity entity) {}
+    default void pl$onPushEntityInto(BlockGetter level, BlockPos pos, BlockState state, Entity entity) {}
 
 }

@@ -88,13 +88,35 @@ public class VanillaPistonController implements PistonController {
 
     @Override
     public int getLength(Level level, BlockPos pos, BlockState state) {
-        return state.getValue(EXTENDED) ? getFamily().getMaxLength() : getFamily().getMinLength();
+        PistonFamily family = getFamily();
+        if (state.getValue(EXTENDED)) {
+            int maxLength = family.getMaxLength();
+            if (maxLength == 1) {
+                return 1;
+            }
+            Direction facing = state.getValue(FACING);
+            int length = family.getMinLength();
+
+            while (length++ < maxLength) {
+                BlockPos frontPos = pos.relative(facing, length);
+                BlockState frontState = level.getBlockState(frontPos);
+
+                if (!frontState.is(family.getArm())) {
+                    break;
+                }
+            }
+
+            return length;
+        }
+        return family.getMinLength();
     }
 
     @Override
     public boolean hasNeighborSignal(Level level, BlockPos pos, Direction facing) {
-        return Utils.hasNeighborSignalExceptFromFacing(level, pos, facing) ||
-                level.pl$hasQuasiNeighborSignal(pos, 1);
+        PistonFamily family = this.getFamily();
+        return (family.isFrontPowered() ?
+                level.hasNeighborSignal(pos) : Utils.hasNeighborSignalExceptFromFacing(level, pos, facing)) ||
+                (family.isQuasi() && level.pl$hasQuasiNeighborSignal(pos, 1));
     }
 
     @Override
@@ -107,7 +129,7 @@ public class VanillaPistonController implements PistonController {
         int length = this.getLength(level, pos, state);
         boolean shouldExtend = hasNeighborSignal(level, pos, facing);
 
-        PistonFamily family = getFamily();
+        PistonFamily family = this.getFamily();
         if (PistonLibConfig.headlessPistonFix && !onPlace && length > family.getMinLength()) {
             BlockState blockState = level.getBlockState(pos.relative(facing, length));
             if (shouldExtend && !blockState.is(family.getMoving()) && !blockState.is(family.getHead())) {
@@ -137,11 +159,15 @@ public class VanillaPistonController implements PistonController {
 
     @Override
     public int getRetractType(ServerLevel level, BlockPos pos, Direction facing, int length) {
+        PistonFamily family = getFamily();
+        if (!family.isRetractOnExtending()) {
+            return PistonEvents.NONE;
+        }
+
         // make sure the piston doesn't try to retract while it's already retracting
         BlockPos headPos = pos.relative(facing, length);
         BlockState headState = level.getBlockState(headPos);
 
-        PistonFamily family = getFamily();
         if (headState.is(family.getMoving())) {
             if (level.getBlockEntity(headPos) instanceof PistonMovingBlockEntity mbe &&
                     mbe.isSourcePiston() && !mbe.isExtending() && mbe.getDirection() == facing) {
@@ -203,7 +229,7 @@ public class VanillaPistonController implements PistonController {
             BlockPos headPos = pos.relative(facing, length);
             BlockEntity headBlockEntity = level.getBlockEntity(headPos);
 
-            if (headBlockEntity instanceof BasicMovingBlockEntity mbe) {
+            if (headBlockEntity instanceof PistonMovingBlockEntity mbe) {
                 mbe.finalTick();
             }
 
@@ -257,7 +283,8 @@ public class VanillaPistonController implements PistonController {
                 }
                 if (!droppedBlock) {
                     if (type == PistonEvents.RETRACT_NO_PULL || frontState.isAir() ||
-                            (frontState.getPistonPushReaction() != PushReaction.NORMAL && !frontState.is(ModTags.PISTONS)) ||
+                            (frontState.getPistonPushReaction() != PushReaction.NORMAL &&
+                                    !frontState.is(ModTags.PISTONS)) ||
                             !canMoveBlock(frontState, level, frontPos, facing.getOpposite(), false, facing)) {
                         if (!PistonLibConfig.illegalBreakingFix ||
                                 level.getBlockState(headPos).getDestroySpeed(level, headPos) != -1.0F) {
@@ -391,5 +418,11 @@ public class VanillaPistonController implements PistonController {
     @Override
     public boolean moveBlocks(Level level, BlockPos pos, Direction facing, int length, boolean extend) {
         return newStructureRunner(level, pos, facing, length, extend, this::newStructureResolver).run();
+    }
+
+    @Override
+    public BlockState getHeadState(BlockPos pistonPos, Level level, Direction pushingDir) {
+        return getFamily().getHead().defaultBlockState().setValue(FACING, pushingDir)
+                .setValue(BasicPistonHeadBlock.TYPE, type);
     }
 }

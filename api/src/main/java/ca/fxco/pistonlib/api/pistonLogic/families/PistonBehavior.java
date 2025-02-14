@@ -26,17 +26,6 @@ public interface PistonBehavior {
     boolean isFrontPowered();
 
     /**
-     * If this piston is slippery.
-     * Slippery pistons fall if no blocks are supporting them.
-     *
-     * @return {@code true} if the piston is slippery, otherwise {@code false}
-     * @since 1.2.0
-     * @deprecated This behavior is getting removed from the core library
-     */
-    @Deprecated(forRemoval = true)
-    boolean isSlippery();
-
-    /**
      * If this piston is quasi.
      * If it's affected by quasi-connectivity.
      *
@@ -125,17 +114,6 @@ public interface PistonBehavior {
          * @since 1.2.0
          */
         Builder frontPowered();
-
-        /**
-         * Make this piston slippery.
-         * Slippery pistons fall if no blocks are supporting them.
-         *
-         * @return The builder
-         * @since 1.2.0
-         * @deprecated This behavior is getting removed from the core library
-         */
-        @Deprecated(forRemoval = true)
-        Builder slippery();
 
         /**
          * If this piston shouldn't be quasi.

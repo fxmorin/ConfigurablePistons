@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class LevelChunk_blockEntityMixin {
 
     @Shadow
-    private Level getLevel() { return null; }
+    public Level getLevel() { return null; }
 
     @WrapWithCondition(
             method = "addAndRegisterBlockEntity",
@@ -23,7 +23,7 @@ public class LevelChunk_blockEntityMixin {
                             "updateBlockEntityTicker(Lnet/minecraft/world/level/block/entity/BlockEntity;)V"
             )
     )
-    private boolean conditionallyAddTickers$1(LevelChunk level, BlockEntity blockEntity) {
+    private boolean pl$conditionallyAddTickers$1(LevelChunk level, BlockEntity blockEntity) {
         if (blockEntity.pl$shouldPostLoad()) {
             this.getLevel().pl$addBlockEntityPostLoad(blockEntity);
         }
@@ -41,7 +41,7 @@ public class LevelChunk_blockEntityMixin {
                             "updateBlockEntityTicker(Lnet/minecraft/world/level/block/entity/BlockEntity;)V"
             )
     )
-    private boolean conditionallyAddTickers$2(LevelChunk level, BlockEntity blockEntity) {
+    private boolean pl$conditionallyAddTickers$2(LevelChunk level, BlockEntity blockEntity) {
         if (blockEntity.pl$shouldPostLoad()) {
             this.getLevel().pl$addBlockEntityPostLoad(blockEntity);
         }
@@ -59,7 +59,7 @@ public class LevelChunk_blockEntityMixin {
                             "updateBlockEntityTicker(Lnet/minecraft/world/level/block/entity/BlockEntity;)V"
             )
     )
-    private boolean conditionallyAddTickers$3(LevelChunk level, BlockEntity blockEntity) {
+    private boolean pl$conditionallyAddTickers$3(LevelChunk level, BlockEntity blockEntity) {
         if (blockEntity.pl$shouldPostLoad()) {
             this.getLevel().pl$addBlockEntityPostLoad(blockEntity);
         }

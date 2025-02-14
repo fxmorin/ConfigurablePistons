@@ -27,10 +27,6 @@
     "fixes.PistonBaseBlock_pushOrderMixin",
     "fixes.PistonBlock_worldBorderMixin",
     "fixes.PistonMovingBlockEntity_pushTooFarMixin",
-    "merging.IceBlock_compressMixin",
-    "merging.SignBlock_mergeMixin",
-    "merging.SignBlockEntity_mergeMixin",
-    "merging.SlabBlock_mergeMixin",
     "movableBlockEntities.LevelChunkMixin",
     "movableBlockEntities.LevelMixin",
     "movingPiston.BlockCollisions_movingPistonMixin",
@@ -48,7 +44,6 @@
     "stuck.BedBlock_stuckMixin",
     "stuck.ChestBlock_stuckMixin",
     "stuck.DoorBlock_stuckMixin",
-    "ticking.AbstractFurnaceBlockEntity_tickingMixin",
     "toggle.BlockBehaviour_toggleMixin",
     "toggle.Item_toggleMixin",
     "toggle.Properties_blockMixin",
@@ -56,8 +51,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "client": [
-    "ClientTooltipComponent_singleMixin"
-  ]
+  }
 }

@@ -15,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -62,17 +61,17 @@ public interface PLBlockStateBase extends BlockStatePistonBehavior,
     }
 
     @Override
-    default boolean pl$isMovable(Level level, BlockPos pos) {
+    default boolean pl$isMovable(BlockGetter level, BlockPos pos) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    default boolean pl$canPistonPush(Level level, BlockPos pos, Direction dir) {
+    default boolean pl$canPistonPush(BlockGetter level, BlockPos pos, Direction dir) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    default boolean pl$canPistonPull(Level level, BlockPos pos, Direction dir) {
+    default boolean pl$canPistonPull(BlockGetter level, BlockPos pos, Direction dir) {
         throw new UnsupportedOperationException();
     }
 
@@ -82,12 +81,12 @@ public interface PLBlockStateBase extends BlockStatePistonBehavior,
     }
 
     @Override
-    default boolean pl$canDestroy(Level level, BlockPos pos) {
+    default boolean pl$canDestroy(BlockGetter level, BlockPos pos) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    default void pl$onPushEntityInto(Level level, BlockPos pos, Entity entity) {
+    default void pl$onPushEntityInto(BlockGetter level, BlockPos pos, Entity entity) {
         throw new UnsupportedOperationException();
     }
 
@@ -137,7 +136,8 @@ public interface PLBlockStateBase extends BlockStatePistonBehavior,
     }
 
     @Override
-    default @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockGetter level, BlockPos pos, Direction dir){
+    default @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockGetter level, BlockPos pos,
+                                                                Direction dir, BlockState pullingState){
         throw new UnsupportedOperationException();
     }
 

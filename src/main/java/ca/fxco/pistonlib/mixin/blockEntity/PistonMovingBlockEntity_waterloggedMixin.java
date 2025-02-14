@@ -25,8 +25,8 @@ public class PistonMovingBlockEntity_waterloggedMixin {
                             "Lnet/minecraft/world/level/block/state/BlockState;"
             )
     )
-    private BlockState removeWaterloggedBlockState(BlockState state, LevelAccessor level,
-                                                   BlockPos pos, Operation<BlockState> original) {
+    private BlockState pl$removeWaterloggedBlockState(BlockState state, LevelAccessor level,
+                                                      BlockPos pos, Operation<BlockState> original) {
         BlockState newState = original.call(state, level, pos);
         if (PistonLibConfig.pistonsPushWaterloggedBlocks == PistonLibConfig.WaterloggedState.NONE &&
                 newState.hasProperty(BlockStateProperties.WATERLOGGED) &&
@@ -44,8 +44,8 @@ public class PistonMovingBlockEntity_waterloggedMixin {
                             "hasProperty(Lnet/minecraft/world/level/block/state/properties/Property;)Z"
             )
     )
-    private static boolean allowWaterloggedBlockState(BlockState instance, Property<?> property,
-                                                      Operation<Boolean> original) {
+    private static boolean pl$allowWaterloggedBlockState(BlockState instance, Property<?> property,
+                                                         Operation<Boolean> original) {
         if (PistonLibConfig.pistonsPushWaterloggedBlocks == PistonLibConfig.WaterloggedState.ALL) {
             return false; // Prevents water from being removed
         }

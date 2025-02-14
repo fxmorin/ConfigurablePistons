@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour.BlockStateBase;
 import net.minecraft.world.level.block.state.BlockState;
@@ -62,17 +61,17 @@ public abstract class BlockStateBase_coreMixin implements PLBlockStateBase {
     }
 
     @Override
-    public boolean pl$isMovable(Level level, BlockPos pos) {
+    public boolean pl$isMovable(BlockGetter level, BlockPos pos) {
         return this.getBlock().pl$isMovable(level, pos, this.asState());
     }
 
     @Override
-    public boolean pl$canPistonPush(Level level, BlockPos pos, Direction dir) {
+    public boolean pl$canPistonPush(BlockGetter level, BlockPos pos, Direction dir) {
         return this.getBlock().pl$canPistonPush(level, pos, this.asState(), dir);
     }
 
     @Override
-    public boolean pl$canPistonPull(Level level, BlockPos pos, Direction dir) {
+    public boolean pl$canPistonPull(BlockGetter level, BlockPos pos, Direction dir) {
         return this.getBlock().pl$canPistonPull(level, pos, this.asState(), dir);
     }
 
@@ -82,12 +81,12 @@ public abstract class BlockStateBase_coreMixin implements PLBlockStateBase {
     }
 
     @Override
-    public boolean pl$canDestroy(Level level, BlockPos pos) {
+    public boolean pl$canDestroy(BlockGetter level, BlockPos pos) {
         return this.getBlock().pl$canDestroy(level, pos, this.asState());
     }
 
     @Override
-    public void pl$onPushEntityInto(Level level, BlockPos pos, Entity entity) {
+    public void pl$onPushEntityInto(BlockGetter level, BlockPos pos, Entity entity) {
         this.getBlock().pl$onPushEntityInto(level, pos, this.asState(), entity);
     }
 
@@ -139,8 +138,9 @@ public abstract class BlockStateBase_coreMixin implements PLBlockStateBase {
     }
 
     @Override
-    public @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockGetter level, BlockPos pos, Direction dir){
-        return this.getBlock().pl$doUnMerge(this.asState(), level, pos, dir);
+    public @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockGetter level, BlockPos pos,
+                                                               Direction dir, BlockState pullingState) {
+        return this.getBlock().pl$doUnMerge(this.asState(), level, pos, dir, pullingState);
     }
 
     @Override

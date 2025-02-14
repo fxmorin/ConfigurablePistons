@@ -12,16 +12,16 @@ import java.util.function.BooleanSupplier;
 public class Properties_itemMixin implements ToggleableProperties<Item.Properties>, Toggleable {
 
     @Unique
-    BooleanSupplier isDisabled = () -> false;
+    private BooleanSupplier pl$isDisabled = () -> false;
 
     @Override
     public Item.Properties pl$setDisabled(BooleanSupplier isDisabled) {
-        this.isDisabled = isDisabled;
+        this.pl$isDisabled = isDisabled;
         return (Item.Properties)(Object)this;
     }
 
     @Override
     public BooleanSupplier pl$getIsDisabled() {
-        return this.isDisabled;
+        return this.pl$isDisabled;
     }
 }

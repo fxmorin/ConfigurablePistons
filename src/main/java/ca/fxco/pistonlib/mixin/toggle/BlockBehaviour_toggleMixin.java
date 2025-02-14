@@ -18,7 +18,7 @@ import static ca.fxco.pistonlib.PistonLib.NEVER_ENABLED_SET;
 public class BlockBehaviour_toggleMixin implements PLBlockBehaviour {
 
     @Unique
-    private BooleanSupplier isDisabled;
+    private BooleanSupplier pl$isDisabled;
 
     @Inject(
             method = "<init>",
@@ -29,13 +29,13 @@ public class BlockBehaviour_toggleMixin implements PLBlockBehaviour {
                     shift = At.Shift.AFTER
             )
     )
-    private void onInit(BlockBehaviour.Properties properties, CallbackInfo ci) {
-        this.isDisabled = properties.pl$getIsDisabled();
+    private void pl$onInit(BlockBehaviour.Properties properties, CallbackInfo ci) {
+        this.pl$isDisabled = properties.pl$getIsDisabled();
     }
 
     @Override
     public BooleanSupplier pl$getIsDisabled() {
-        return this.isDisabled;
+        return this.pl$isDisabled;
     }
 
     @Inject(
@@ -43,8 +43,8 @@ public class BlockBehaviour_toggleMixin implements PLBlockBehaviour {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void disableBlock(CallbackInfoReturnable<FeatureFlagSet> cir) {
-        if (this.isDisabled.getAsBoolean()) {
+    private void pl$disableBlock(CallbackInfoReturnable<FeatureFlagSet> cir) {
+        if (this.pl$isDisabled.getAsBoolean()) {
             cir.setReturnValue(NEVER_ENABLED_SET);
         }
     }

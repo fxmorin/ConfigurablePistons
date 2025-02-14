@@ -121,13 +121,15 @@ public interface BlockStatePistonMerging {
      * Un-merge this state into two different states.
      * The first block state in the pair is the block state that is pulled out.
      *
-     * @param level of the block state
-     * @param pos   block position of the block state
-     * @param dir   direction it being pulled
+     * @param level        of the block state
+     * @param pos          block position of the block state
+     * @param dir          direction it being pulled
+     * @param pullingState block state which pulls this block
      * @return the block states that it should unmerge into.
      * @since 1.0.4
      */
-    @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockGetter level, BlockPos pos, Direction dir);
+    @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockGetter level, BlockPos pos,
+                                                        Direction dir, BlockState pullingState);
 
     /**
      * This method determines when the block entity should be used:

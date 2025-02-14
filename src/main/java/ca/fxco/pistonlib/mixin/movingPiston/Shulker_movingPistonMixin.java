@@ -21,7 +21,7 @@ public class Shulker_movingPistonMixin {
             target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"
         )
     )
-    public boolean allMovingPistons(BlockState instance, Block block, Operation<Boolean> original) {
+    private boolean pl$allMovingPistons(BlockState instance, Block block, Operation<Boolean> original) {
         return instance.is(ModTags.MOVING_PISTONS);
     }
 }

@@ -11,16 +11,16 @@ import java.util.function.BooleanSupplier;
 public class Properties_blockMixin implements PLBlockProperties {
 
     @Unique
-    BooleanSupplier isDisabled = () -> false;
+    private BooleanSupplier pl$isDisabled = () -> false;
 
     @Override
     public BlockBehaviour.Properties pl$setDisabled(BooleanSupplier isDisabled) {
-        this.isDisabled = isDisabled;
+        this.pl$isDisabled = isDisabled;
         return (BlockBehaviour.Properties)(Object)this;
     }
 
     @Override
     public BooleanSupplier pl$getIsDisabled() {
-        return this.isDisabled;
+        return this.pl$isDisabled;
     }
 }

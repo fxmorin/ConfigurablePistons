@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.piston.PistonMovingBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -30,21 +31,15 @@ public abstract class DoorBlock_stuckMixin extends Block {
         super(properties);
     }
 
-    private static Direction getStickyDirection(BlockState state) {
-        DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
-        return doubleBlockHalf == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN;
-    }
-
     @Inject(
             method = "updateShape",
             at = @At("RETURN"),
             cancellable = true
     )
-    private void lookWithinMovingPistons(BlockState blockState, LevelReader levelReader,
-                                         ScheduledTickAccess tickAccess,
-                                         BlockPos blockPos, Direction dir,
-                                         BlockPos blockPos2, BlockState blockState2, RandomSource random,
-                                         CallbackInfoReturnable<BlockState> cir) {
+    private void pl$lookWithinMovingPistons(BlockState blockState, LevelReader levelReader,
+                                            ScheduledTickAccess tickAccess, BlockPos blockPos, Direction dir,
+                                            BlockPos blockPos2, BlockState blockState2, RandomSource random,
+                                            CallbackInfoReturnable<BlockState> cir) {
         if (cir.getReturnValue().isAir() && blockState2.is(ModTags.MOVING_PISTONS)) {
             BlockEntity entity = levelReader.getBlockEntity(blockPos2);
             if (entity instanceof PistonMovingBlockEntity mpbe && mpbe.progress >= 1.0F) {
@@ -66,16 +61,22 @@ public abstract class DoorBlock_stuckMixin extends Block {
 
     @Override
     public Map<Direction, StickyType> pl$stickySides(BlockState state) {
-        return Map.of(getStickyDirection(state), StickyType.CONDITIONAL);
+        return Map.of(pl$getStickyDirection(state), StickyType.CONDITIONAL);
     }
 
     @Override
     public StickyType pl$sideStickiness(BlockState state, Direction dir) {
-        return dir == getStickyDirection(state) ? StickyType.CONDITIONAL : StickyType.DEFAULT;
+        return dir == pl$getStickyDirection(state) ? StickyType.CONDITIONAL : StickyType.DEFAULT;
     }
 
     @Override
     public boolean pl$matchesStickyConditions(BlockState state, BlockState neighborState, Direction dir) {
-        return state.is(neighborState.getBlock()) && getStickyDirection(neighborState) == dir.getOpposite();
+        return state.is(neighborState.getBlock()) && pl$getStickyDirection(neighborState) == dir.getOpposite();
+    }
+
+    @Unique
+    private static Direction pl$getStickyDirection(BlockState state) {
+        DoubleBlockHalf doubleBlockHalf = state.getValue(HALF);
+        return doubleBlockHalf == DoubleBlockHalf.LOWER ? Direction.UP : Direction.DOWN;
     }
 }

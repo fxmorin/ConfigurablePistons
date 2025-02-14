@@ -15,7 +15,7 @@
         {pos: [0, 1, 1], state: "minecraft:air"},
         {pos: [0, 1, 2], state: "minecraft:air"},
         {pos: [1, 1, 0], state: "minecraft:air"},
-        {pos: [1, 1, 1], state: "gametestlib:pulse_state_block", nbt: {delay: 0, duration: 0, firstBS: {Name: "minecraft:redstone_block"}, id: "pistonlib:pulse_state_block", lastBS: {Name: "minecraft:air"}, pulseBS: {Name: "minecraft:redstone_block"}}},
+        {pos: [1, 1, 1], state: "gametestlib:pulse_state_block", nbt: {delay: 0, duration: 0, firstBS: {Name: "minecraft:redstone_block"}, id: "morepistons:pulse_state_block", lastBS: {Name: "minecraft:air"}, pulseBS: {Name: "minecraft:redstone_block"}}},
         {pos: [1, 1, 2], state: "minecraft:air"},
         {pos: [2, 1, 0], state: "minecraft:air"},
         {pos: [2, 1, 1], state: "minecraft:air"},

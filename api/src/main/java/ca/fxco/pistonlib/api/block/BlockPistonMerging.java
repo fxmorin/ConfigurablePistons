@@ -150,7 +150,7 @@ public interface BlockPistonMerging {
      * @since 1.0.4
      */
     default @Nullable Pair<BlockState, BlockState> pl$doUnMerge(BlockState state, BlockGetter level,
-                                                                BlockPos pos, Direction dir) {
+                                                                BlockPos pos, Direction dir, BlockState pullingState) {
         return null;
     }
 

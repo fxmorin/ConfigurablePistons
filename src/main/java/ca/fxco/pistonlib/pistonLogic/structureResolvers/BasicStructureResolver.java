@@ -247,10 +247,7 @@ public class BasicStructureResolver extends PistonStructureResolver implements S
         if (PistonLibConfig.indirectStickyApi) {
             if (state.pl$usesConfigurablePistonStickiness() && state.pl$isSticky()) {
                 StickyType type = state.pl$sideStickiness(dir);
-                if (type == StickyType.NO_STICK) {
-                    return false;
-                }
-                return true;
+                return type != StickyType.NO_STICK;
             }
             // All other blocks should check the blocks around them for indirect sticky blocks, except air
             return !state.isAir();
